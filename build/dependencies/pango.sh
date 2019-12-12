@@ -1,10 +1,12 @@
 #!/bin/sh
 
-fetchSource pango https://download.gnome.org/sources/pango/1.40/pango-${VERSION_PANGO}.tar.xz
+fetchSource pango https://github.com/GNOME/pango/archive/${VERSION_PANGO}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_PANGO}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure  \
         --prefix=${TARGET} \
         --enable-shared \

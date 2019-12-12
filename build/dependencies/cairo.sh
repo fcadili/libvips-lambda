@@ -19,7 +19,6 @@ if [ ! -f "configured.sts" ]; then
         --disable-wgl \
         --disable-script \
         --disable-ps \
-        --disable-gobject \
         --disable-trace \
         --disable-interpreter >> ${BUILD_LOGS}/${DEP_NAME}.config.log 2>&1
     touch configured.sts

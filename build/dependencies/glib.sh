@@ -1,6 +1,6 @@
 #!/bin/sh
 
-fetchSource glib https://download.gnome.org/sources/glib/2.52/glib-${VERSION_GLIB}.tar.xz
+fetchSource glib https://github.com/GNOME/glib/archive/${VERSION_GLIB}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_GLIB}\""
 
 if [ ! -f "configured.sts" ]; then
@@ -8,7 +8,8 @@ if [ ! -f "configured.sts" ]; then
 
     echo glib_cv_stack_grows=no >>glib.cache
     echo glib_cv_uscore=no >>glib.cache
-
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure \
         --cache-file=glib.cache  \
         --prefix=${TARGET} \

@@ -1,10 +1,12 @@
 #!/bin/sh
 
-fetchSource svg https://download.gnome.org/sources/librsvg/2.40/librsvg-${VERSION_SVG}.tar.xz
+fetchSource svg https://github.com/GNOME/librsvg/archive/${VERSION_SVG}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_SVG}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure  \
         --prefix=${TARGET} \
         --enable-shared \

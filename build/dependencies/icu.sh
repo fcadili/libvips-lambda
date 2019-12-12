@@ -1,6 +1,6 @@
 #!/bin/sh
 
-fetchSource icu http://download.icu-project.org/files/icu4c/${VERSION_ICU}/icu4c-59_1-src.tgz
+fetchSource icu https://github.com/unicode-org/icu/releases/download/release-${VERSION_ICU//./-}/icu4c-${VERSION_ICU//./_}-src.tgz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_ICU}\""
 
 cd source
@@ -8,7 +8,7 @@ if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
     ./configure  \
         --prefix=${TARGET} \
-        --enable-shared \
+        --enable-shared=yes \
         --with-library-bits=64 \
         --with-data-packaging=library \
         --enable-tests=no \

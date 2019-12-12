@@ -1,6 +1,6 @@
 #!/bin/sh
 
-fetchSource curl https://github.com/curl/curl/archive/curl-${VERSION_CURL//./_}.tar.gz
+fetchSource curl https://github.com/curl/curl/releases/download/curl-${VERSION_CURL//./_}/curl-${VERSION_CURL}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_CURL}\""
 
 if [ ! -f "configured.sts" ]; then

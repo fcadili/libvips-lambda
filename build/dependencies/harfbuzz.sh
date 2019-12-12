@@ -1,6 +1,6 @@
 #!/bin/sh
 
-fetchSource harfbuzz https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-${VERSION_HARFBUZZ}.tar.bz2
+fetchSource harfbuzz https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-${VERSION_HARFBUZZ}.tar.xz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_HARFBUZZ}\""
 
 if [ ! -f "configured.sts" ]; then

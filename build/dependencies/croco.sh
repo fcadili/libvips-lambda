@@ -1,10 +1,12 @@
 #!/bin/sh
 
-fetchSource croco https://download.gnome.org/sources/libcroco/0.6/libcroco-${VERSION_CROCO}.tar.xz
+fetchSource croco https://github.com/GNOME/libcroco/archive/${VERSION_CROCO}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_CROCO}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure  \
         --prefix=${TARGET} \
         --enable-shared \

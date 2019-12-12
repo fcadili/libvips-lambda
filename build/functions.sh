@@ -68,8 +68,25 @@ packageVips () {
     echo "|   ${PACKAGE} "
     echo "-------------------------------------------------------------------------------------------------"
     [[ -f "${PACKAGE}" ]] && rm "${PACKAGE}"
-    tar czf ${PACKAGE} include lib bin modules etc
-    advdef --recompress --shrink-insane ${PACKAGE}
+    if [ -d modules ]
+    then
+        tar czf ${PACKAGE} include lib bin modules etc
+    else
+        tar czf ${PACKAGE} include lib bin etc
+    fi
+    #advdef --recompress --shrink-insane ${PACKAGE}
+}
+
+copylib64 () {
+    echo "-------------------------------------------------------------------------------------------------"
+    echo "|   Copying lib64 libraries"
+    echo "| "
+    if [ -d "${TARGET}/lib64-all" ]
+    then
+        rm -rf "${TARGET}/lib64-all"
+    fi
+    mkdir -p "${TARGET}/lib64-all"
+    cp /lib64/*.so* "${TARGET}/lib64-all"
 }
 
 pushd `dirname $0` > /dev/null

@@ -7,6 +7,7 @@ if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
     ./configure  \
         --prefix=${TARGET} \
+        --without-docbook \
         --enable-shared \
         --disable-static >> ${BUILD_LOGS}/${DEP_NAME}.config.log 2>&1
     touch configured.sts

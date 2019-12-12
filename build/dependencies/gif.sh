@@ -5,6 +5,7 @@ export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_GIF}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure  \
     --prefix=${TARGET} \
     --enable-shared \

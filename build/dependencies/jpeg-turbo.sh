@@ -1,10 +1,11 @@
 #!/bin/sh
 
-fetchSource jpeg-turbo http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${VERSION_JPGTURBO}.tar.gz
+fetchSource jpeg-turbo https://github.com/libjpeg-turbo/libjpeg-turbo/archive/${VERSION_JPGTURBO}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_JPGTURBO}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     ./configure  \
         --prefix=${TARGET} \
         --enable-shared \

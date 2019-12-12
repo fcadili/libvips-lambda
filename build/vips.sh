@@ -1,5 +1,11 @@
 #!/bin/sh
 set -e
+RUNMODE=$1
+KEEPALL=$2
+if [ "$RUNMODE" == "debug" ]
+then
+    set -x
+fi
 
 pushd `dirname $0` > /dev/null
 BUILDPATH=`pwd`
@@ -13,7 +19,10 @@ source "${BUILDPATH}/versions.sh"
 # Pull in our Functions
 source "${BUILDPATH}/functions.sh"
 
-rm -rf ${BUILD_LOGS}/*
+if [ "$RUNMODE" != "debug" ]
+then
+    rm -rf ${BUILD_LOGS}/*
+fi
 
 # Build All Dependencies
 
@@ -270,7 +279,10 @@ build harfbuzz
 #   - fontconfig
 #   - php
 #   - ghostscript
-rm -rf ${DEPS}/freetype
+if [ "$KEEPALL" != "keepall" ]
+then
+    rm -rf ${DEPS}/freetype
+fi
 build freetype
 
 # http://www.linuxfromscratch.org/blfs/view/svn/general/fontconfig.html
@@ -281,7 +293,10 @@ build freetype
 #   - pango
 #   - poppler
 #   - ghostscript
-rm -rf ${DEPS}/fontconfig
+if [ "$KEEPALL" != "keepall" ]
+then
+    rm -rf ${DEPS}/fontconfig
+fi
 build fontconfig
 
 ########################################################################################################################
@@ -433,12 +448,15 @@ fi
 
 # Remove the old C++ bindings
 cd ${TARGET}/include
-rm -rf vips/vipsc++.h vips/vipscpp.h
+#rm -rf vips/vipsc++.h vips/vipscpp.h
 cd ${TARGET}/lib
-rm -rf .libs *.la libvipsCC*
+#rm -rf .libs *.la libvipsCC*
 
 # Create JSON file of version numbers
 toJson
+
+# Copy /lib64 to target directory
+copylib64
 
 # Create .tar.gz
 packageVips

@@ -1,11 +1,13 @@
 #!/bin/sh
 
-fetchSource gdkpixbuf https://download.gnome.org/sources/gdk-pixbuf/2.36/gdk-pixbuf-${VERSION_GDKPIXBUF}.tar.xz
+fetchSource gdkpixbuf https://github.com/GNOME/gdk-pixbuf/archive/${VERSION_GDKPIXBUF}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_GDKPIXBUF}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
     touch gdk-pixbuf/loaders.cache
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
     LD_LIBRARY_PATH=${TARGET}/lib \
         ./configure  \
         --prefix=${TARGET} \

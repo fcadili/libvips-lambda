@@ -1,10 +1,13 @@
 #!/bin/sh
 
-fetchSource gsf https://download.gnome.org/sources/libgsf/1.14/libgsf-${VERSION_GSF}.tar.xz
+fetchSource gsf https://github.com/GNOME/libgsf/archive/LIBGSF_${VERSION_GSF//./_}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_GSF}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    cp /usr/share/gtk-doc/data/gtk-doc.make .
+    autoreconf -fiv >> ${BUILD_LOGS}/${DEP_NAME}.autoreconf.log 2>&1
+    intltoolize --force
     ./configure  \
         --prefix=${TARGET} \
         --enable-shared \
