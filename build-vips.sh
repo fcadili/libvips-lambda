@@ -1,13 +1,14 @@
 #!/bin/sh
 function help {
 	echo
-	echo "Usage: $0 -v VERSION [-d] [-k] [-c]"
+	echo "Usage: $0 -v VERSION [-d] [-k] [-c] [-i]"
 	echo "Build shared libraries for libvips and its dependencies via containers"
 	echo
 	echo "Please specify the libvips VERSION, e.g. 8.7.0"
 	echo "Add -d as parameter to enable bash debugging"
 	echo "Add an extra -k parameter to avoid recompilation of freetype and fontconfig libraries. Usually this parameter is not given."
 	echo "Use -c to rebuild all libraries."
+	echo "Use -i to enable final insane compression level of archives."
 	echo
 }
 
@@ -22,6 +23,7 @@ VERSION_VIPS=
 RUNMODE=release
 KEEPALL=none
 REBUILD=false
+INSANE=false
 while [ $# != 0 ]
 do
     case $1 in
@@ -32,6 +34,9 @@ do
 	-k) KEEPALL=keepall
 		;;
 	-c) REBUILD=true
+		;;
+	-i)
+		INSANE=true
 		;;
 	-h)
 		help
@@ -82,4 +87,4 @@ fi
 echo "Building ..."
 
 docker build -t dev-lambda amazonlinux
-docker run --rm=false -e "VERSION_VIPS=${VERSION_VIPS}" -v $PWD:/packaging dev-lambda sh -c "/packaging/build/vips.sh $RUNMODE $KEEPALL"
+docker run --rm=false -e "VERSION_VIPS=${VERSION_VIPS}" -v $PWD:/packaging dev-lambda sh -c "/packaging/build/vips.sh $RUNMODE $KEEPALL $INSANE"

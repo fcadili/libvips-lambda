@@ -56,6 +56,7 @@ packageVips () {
     echo "|   Generating Package"
     echo "| "
 
+	INSANE="$1"
     mkdir -p /packaging/dist
     cd ${TARGET}
     PACKAGE=/packaging/dist/libvips-${VERSION_VIPS}-lambda.tar.gz
@@ -82,7 +83,9 @@ packageVips () {
 		dirs="$dirs lib64-all"
     fi
     tar czf ${PACKAGE} ${dirs}
-    #advdef --recompress --shrink-insane ${PACKAGE}
+    if [ "${INSANE}" == true ] ; then
+		advdef --recompress --shrink-insane ${PACKAGE}
+	fi
 }
 
 packageSharp () {
@@ -90,6 +93,7 @@ packageSharp () {
     echo "|   Generating Package"
     echo "| "
 
+	INSANE="$1"
     mkdir -p /packaging/dist
     cd ${TARGET}
     PACKAGE=/packaging/dist/sharp-${VERSION_SHARP}-libvips-${VERSION_VIPS}-lambda.tar.gz
@@ -100,7 +104,9 @@ packageSharp () {
     
     cd ${DEPS}/sharp/nodejs/node_modules/sharp
     tar czf ${PACKAGE} *
-    #advdef --recompress --shrink-insane ${PACKAGE}
+    if [ "${INSANE}" == true ] ; then
+		advdef --recompress --shrink-insane ${PACKAGE}
+	fi
     cd -
 }
 

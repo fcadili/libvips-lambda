@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 RUNMODE=$1
+INSANE=$2
 if [ "$RUNMODE" == "debug" ]
 then
     set -x
@@ -36,4 +37,4 @@ fi
 printf "sharp, version: ${VERSION_SHARP}"
 build sharp
 
-packageSharp
+packageSharp ${INSANE}

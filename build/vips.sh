@@ -2,6 +2,7 @@
 set -e
 RUNMODE=$1
 KEEPALL=$2
+INSANE=$3
 if [ "$RUNMODE" == "debug" ]
 then
     set -x
@@ -465,4 +466,4 @@ copylib64
 build vips-test
 
 # Create .tar.gz
-packageVips
+packageVips ${INSANE}

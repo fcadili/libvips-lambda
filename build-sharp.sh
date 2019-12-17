@@ -1,12 +1,13 @@
 #!/bin/sh
 function help {
 	echo
-	echo "Usage: $0 -v VERSION -s VERSION [-d]"
+	echo "Usage: $0 -v VERSION -s VERSION [-d] [-i]"
 	echo "Build shared libraries for sharp using libvips tar.gz. Sharp installation is checked with nodejs.10x"
 	echo
 	echo "Please specify the libvips VERSION, e.g. 8.7.0"
 	echo "Please specify the sharp VERSION, e.g. 0.21.3"
 	echo "Use -d to debug the build."
+	echo "Use -i to enable final insane compression level of archives."
 	echo
 }
 
@@ -19,6 +20,7 @@ set -e
 
 VERSION_VIPS=
 RUNMODE=release
+INSANE=false
 while [ $# != 0 ]
 do
     case $1 in
@@ -26,9 +28,12 @@ do
         ;;
     -d) RUNMODE=debug
         ;;
-	-s) VERSION_SHARP="$2"; shift
+    -s) VERSION_SHARP="$2"; shift
 		;;
-	-h)
+	-i)
+		INSANE=true
+		;;
+    -h)
 		help
 		exit 1
     esac
@@ -55,4 +60,4 @@ fi
 echo "Building ..."
 
 docker build -t dev-lambda amazonlinux
-docker run --rm=false -e "VERSION_VIPS=${VERSION_VIPS}" -e "VERSION_SHARP=${VERSION_SHARP}" -v $PWD:/packaging dev-lambda sh -c "/packaging/build/sharp.sh $RUNMODE"
+docker run --rm=false -e "VERSION_VIPS=${VERSION_VIPS}" -e "VERSION_SHARP=${VERSION_SHARP}" -v $PWD:/packaging dev-lambda sh -c "/packaging/build/sharp.sh $RUNMODE $INSANE"
