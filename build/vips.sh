@@ -19,10 +19,10 @@ source "${BUILDPATH}/versions.sh"
 # Pull in our Functions
 source "${BUILDPATH}/functions.sh"
 
-if [ "$RUNMODE" != "debug" ]
-then
-    rm -rf ${BUILD_LOGS}/*
-fi
+#if [ "$RUNMODE" != "debug" ]
+#then
+#    rm -rf ${BUILD_LOGS}/*
+#fi
 
 # Build All Dependencies
 
@@ -120,6 +120,10 @@ build openssl
 #   - vips
 build fftw3
 
+# http://www.linuxfromscratch.org/blfs/view/svn/general/fribidi.html
+# Dependencies:
+#   - None
+build fribidi
 
 ########################################################################################################################
 #
@@ -457,6 +461,8 @@ toJson
 
 # Copy /lib64 to target directory
 copylib64
+
+build vips-test
 
 # Create .tar.gz
 packageVips

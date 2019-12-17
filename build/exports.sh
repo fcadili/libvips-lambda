@@ -4,10 +4,13 @@ export LOCAL_MOUNTS="/packaging"
 export BUILD_LOGS="/packaging/logs"
 export DEPS="${LOCAL_MOUNTS}/deps"
 export TARGET="${LOCAL_MOUNTS}/var/task"
+export TEST="${LOCAL_MOUNTS}/test"
 
 mkdir -p ${DEPS}
 mkdir -p ${TARGET}
 mkdir -p ${BUILD_LOGS}
+
+if [ "$1" != skip-configuration ] ; then
 
 # Common build paths and flags
 export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${TARGET}/lib/pkgconfig"
@@ -27,3 +30,5 @@ export JSON_VERSIONS="\"name\": \"version\""
 
 # add cargo stuff...
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+
+fi

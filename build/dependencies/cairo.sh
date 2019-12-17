@@ -1,6 +1,7 @@
 #!/bin/sh
 
-fetchSource cairo http://cairographics.org/releases/cairo-${VERSION_CAIRO}.tar.xz
+#fetchSource cairo http://cairographics.org/releases/cairo-${VERSION_CAIRO}.tar.xz
+fetchSource cairo https://ftp.osuosl.org/pub/blfs/conglomeration/cairo/cairo-${VERSION_CAIRO}.tar.xz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_CAIRO}\""
 
 if [ ! -f "configured.sts" ]; then

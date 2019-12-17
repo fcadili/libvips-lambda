@@ -1,14 +1,21 @@
 #!/bin/sh
 
-fetchSource imagemagick ftp://ftp.osuosl.org/pub/blfs/conglomeration/ImageMagick/ImageMagick-${VERSION_IMAGEMAGICK}.tar.xz
-export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_IMAGEMAGIC}\""
+major=${VERSION_IMAGEMAGICK%%.*}
+if [ "$major" == "6" ]
+then
+	fetchSource imagemagick https://github.com/ImageMagick/ImageMagick6/archive/${VERSION_IMAGEMAGICK}.tar.gz
+else
+	fetchSource imagemagick https://imagemagick.org/download/ImageMagick-${VERSION_IMAGEMAGICK}.tar.xz
+fi
+export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_IMAGEMAGICK}\""
 
 if [ ! -f "configured.sts" ]; then
     printf "\tConfiguring\n"
+    #  REMOVED: --with-modules
     ./configure \
         --prefix=${TARGET} \
         --sysconfdir=${TARGET}/etc \
-        --enable-hdri     \
+        --enable-hdri   \
         --with-gslib    \
         --with-rsvg     \
         --disable-static >> ${BUILD_LOGS}/${DEP_NAME}.config.log 2>&1

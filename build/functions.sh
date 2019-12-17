@@ -28,7 +28,6 @@ fetchSource () {
                 exit 1
         esac
 
-
         curl -Ls ${url} | tar ${tar_args} ${build_dir} --strip-components=1
         touch ${build_dir}/downloaded.sts
     else
@@ -68,13 +67,41 @@ packageVips () {
     echo "|   ${PACKAGE} "
     echo "-------------------------------------------------------------------------------------------------"
     [[ -f "${PACKAGE}" ]] && rm "${PACKAGE}"
+    
+    dirs="include lib bin etc"
     if [ -d modules ]
     then
-        tar czf ${PACKAGE} include lib bin modules etc
-    else
-        tar czf ${PACKAGE} include lib bin etc
+        dirs="$dirs modules"
     fi
+    if [ -d lib64 ]
+    then
+		dirs="$dirs lib64"
+    fi
+    if [ -d lib64-all ]
+    then
+		dirs="$dirs lib64-all"
+    fi
+    tar czf ${PACKAGE} ${dirs}
     #advdef --recompress --shrink-insane ${PACKAGE}
+}
+
+packageSharp () {
+    echo "-------------------------------------------------------------------------------------------------"
+    echo "|   Generating Package"
+    echo "| "
+
+    mkdir -p /packaging/dist
+    cd ${TARGET}
+    PACKAGE=/packaging/dist/sharp-${VERSION_SHARP}-libvips-${VERSION_VIPS}-lambda.tar.gz
+
+    echo "|   ${PACKAGE} "
+    echo "-------------------------------------------------------------------------------------------------"
+    [[ -f "${PACKAGE}" ]] && rm "${PACKAGE}"
+    
+    cd ${DEPS}/sharp/nodejs/node_modules/sharp
+    tar czf ${PACKAGE} *
+    #advdef --recompress --shrink-insane ${PACKAGE}
+    cd -
 }
 
 copylib64 () {

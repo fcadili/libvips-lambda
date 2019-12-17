@@ -1,6 +1,6 @@
 #!/bin/sh
 
-fetchSource zlib http://zlib.net/zlib-${VERSION_ZLIB}.tar.xz
+fetchSource zlib https://github.com/madler/zlib/archive/v${VERSION_ZLIB}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_ZLIB}\""
 
 if [ ! -f "configured.sts" ]; then

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-fetchSource pixman http://cairographics.org/releases/pixman-${VERSION_PIXMAN}.tar.gz
+#fetchSource pixman http://cairographics.org/releases/pixman-${VERSION_PIXMAN}.tar.gz
+fetchSource pixman https://ftp.osuosl.org/pub/blfs/conglomeration/pixman/pixman-${VERSION_PIXMAN}.tar.gz
 export JSON_VERSIONS="${JSON_VERSIONS}, \"${DEP_NAME}\": \"${VERSION_PIXMAN}\""
 
 if [ ! -f "configured.sts" ]; then

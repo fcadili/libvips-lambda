@@ -1,4 +1,4 @@
-FROM stechstudio/aws-lambda-build:1.2.3
+FROM stechstudio/aws-lambda-build:1.2.4
 LABEL authors="Bubba Hines <bubba@stechstudio.com>"
 
 # Install devel where we can
